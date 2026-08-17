@@ -13,7 +13,12 @@ struct HowToPlayFlowView: View {
                     .font(.system(size: 12, weight: .bold))
                     .foregroundStyle(Theme.inkFaint)
                 Spacer()
-                Color.clear.frame(width: 20)
+                Button {
+                    switch HowToPlayFlowView.nextStep(afterPage: page) {
+                    case .page(let nextPage): page = nextPage
+                    case .exitToHome: appState.route = .home
+                    }
+                } label: { Image(systemName: "chevron.right") }
             }
             .padding(.horizontal, 24)
             .padding(.top, 20)
@@ -27,5 +32,16 @@ struct HowToPlayFlowView: View {
             .tabViewStyle(.page(indexDisplayMode: .always))
         }
         .background(Theme.background.ignoresSafeArea())
+    }
+}
+
+enum HowToPlayNavigation: Equatable {
+    case page(Int)
+    case exitToHome
+}
+
+extension HowToPlayFlowView {
+    static func nextStep(afterPage page: Int, lastPageIndex: Int = 3) -> HowToPlayNavigation {
+        page < lastPageIndex ? .page(page + 1) : .exitToHome
     }
 }

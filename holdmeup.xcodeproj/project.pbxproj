@@ -30,7 +30,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5CC1F2103032BEF600BD7374 /* Exceptions for "holdmeup" folder in "holdmeup" target */ = {
+		5CC1F2103032BEF600BD7374 /* Exceptions for "HoldMeUp" folder in "holdmeup" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -40,10 +40,10 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		5CC1F19A3032BCDB00BD7374 /* holdmeup */ = {
+		5CC1F19A3032BCDB00BD7374 /* HoldMeUp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				5CC1F2103032BEF600BD7374 /* Exceptions for "holdmeup" folder in "holdmeup" target */,
+				5CC1F2103032BEF600BD7374 /* Exceptions for "HoldMeUp" folder in "holdmeup" target */,
 			);
 			path = HoldMeUp;
 			sourceTree = "<group>";
@@ -88,7 +88,7 @@
 		5CC1F18F3032BCDB00BD7374 = {
 			isa = PBXGroup;
 			children = (
-				5CC1F19A3032BCDB00BD7374 /* holdmeup */,
+				5CC1F19A3032BCDB00BD7374 /* HoldMeUp */,
 				5CC1F1A83032BCDE00BD7374 /* holdmeupTests */,
 				5CC1F1B23032BCDF00BD7374 /* holdmeupUITests */,
 				5CC1F1993032BCDB00BD7374 /* Products */,
@@ -121,7 +121,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				5CC1F19A3032BCDB00BD7374 /* holdmeup */,
+				5CC1F19A3032BCDB00BD7374 /* HoldMeUp */,
 			);
 			name = holdmeup;
 			packageProductDependencies = (
@@ -414,7 +414,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HoldMeUp/Info.plist;
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Hold Me Up uses your\n  local network to connect nearby players for multiplayer games.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Hold Me Up uses your local network to connect nearby players for multiplayer games.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -444,7 +444,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HoldMeUp/Info.plist;
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Hold Me Up uses your\n  local network to connect nearby players for multiplayer games.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Hold Me Up uses your local network to connect nearby players for multiplayer games.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
