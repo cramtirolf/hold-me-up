@@ -64,6 +64,15 @@ mockup is the source of truth until explicitly updated.
   placeholder (`com.holdmeup.*`) — replace with whatever's registered once
   Developer Program enrollment happens.
 
+## Specialized agents
+`.claude/agents/frontend-developer.md` and `.claude/agents/tester.md` define
+two project-scoped subagents (SwiftUI screens/components, and Swift Testing
+unit tests respectively). Any Claude Code session opened in this repo picks
+them up automatically — no per-session setup needed. More roles (backend,
+etc.) get added the same way if/when a project actually needs the split;
+this one doesn't need more yet since it's a single Swift codebase with no
+backend.
+
 ## Monetization
 - **Party Pack** — non-consumable IAP, host-only, raises the room cap from
   3 → 8 players. Enforcement is client-side (no server to check against) —
