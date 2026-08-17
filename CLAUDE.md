@@ -152,6 +152,21 @@ reliable real-time sync). Free tier: 3. Party Pack: 8.
   new files added under `HoldMeUp/` are picked up automatically, no manual
   target-membership step needed for files inside that tree. `Assets.xcassets`
   and `Info.plist` live under `HoldMeUp/` alongside the hand-written source.
-  (A second, separate local-only copy of this project exists at
-  `~/Documents/XCode/Developer/holdmeup` — superseded by this one, pending
-  cleanup.)
+  (The old separate local-only copy at `~/Documents/XCode/Developer/holdmeup`
+  has been deleted now that this repo is the single source.)
+- **Git push/pull from Terminal is authenticated via `gh auth login`** (set
+  up 2026-08-17, logged in as `cramtirolf`) — works directly now. If a local
+  `git push` ever fails again with `could not read Username for
+  'https://github.com'`, it means this Mac's `gh` auth or git credential
+  helper (`osxkeychain`) needs re-running, not that push is fundamentally
+  broken — a cloud session has no access to this and should fall back to the
+  GitHub MCP tools (`push_files`, `create_pull_request`, etc.) instead.
+- **Known quirk: Simulator window can render solid black on first launch of
+  a session** on this Mac, even though the app is actually running fine
+  underneath (confirmed via `simctl` screenshot showing real content, and no
+  crash in `simctl spawn booted log show` or `~/Library/Logs/
+  DiagnosticReports`). Looks like a Metal/GPU rendering glitch tied to this
+  Intel Mac's hardware, not an app or project-config bug — iOS 17 deployment
+  target vs. an iOS 18 Simulator runtime is *not* the cause (that's the
+  normal, fully-supported case). Fix: quit Simulator.app completely (⌘Q, not
+  just closing the window) and re-run from Xcode.
