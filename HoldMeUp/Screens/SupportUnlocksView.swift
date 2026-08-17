@@ -33,6 +33,8 @@ struct SupportUnlocksView: View {
                         showPartyPackPopup = true
                     }
                     .buttonStyle(PrimaryButtonStyle())
+                    .disabled(isPartyPackUnlocked)
+                    .opacity(isPartyPackUnlocked ? 0.5 : 1)
                     Text("Only the host needs this. Joining is always free.")
                         .font(.system(size: 11))
                         .foregroundStyle(Theme.inkFaint)
@@ -105,6 +107,10 @@ struct SupportUnlocksView: View {
                 }
             }
         }
+    }
+
+    private var isPartyPackUnlocked: Bool {
+        partyPackTierState(maxPlayersAllowed: appState.maxPlayersAllowed) == .unlocked
     }
 
     private var partyPackTile: some View {

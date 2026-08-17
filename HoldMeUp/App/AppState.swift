@@ -2,6 +2,7 @@ import SwiftUI
 import MultipeerConnectivity
 
 enum AppRoute: Equatable {
+    case splash
     case onboarding
     case home
     case howToPlay
@@ -15,7 +16,7 @@ enum AppRoute: Equatable {
 
 @MainActor
 final class AppState: ObservableObject {
-    @Published var route: AppRoute = .onboarding
+    @Published var route: AppRoute = .splash
     @Published var multipeer: MultipeerService?
     @Published var gameSession: GameSessionController?
     @Published var maxPlayersAllowed = GameConfig.freeTierMaxPlayers

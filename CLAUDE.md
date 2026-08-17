@@ -145,7 +145,9 @@ reliable real-time sync). Free tier: 3. Party Pack: 8.
   planning). Testing System is Swift Testing, matching `StoreService.swift`'s
   product ID prefixes.
 - Deployment target is **iOS 17.0** — confirmed as the real minimum; a local
-  drift to 18.5 was found and corrected back.
+  drift to 18.5 was found and corrected back once, and a drift to 15.6 was
+  found and corrected back twice more (see the reproducible-drift quirk
+  below).
 - `holdmeup.xcodeproj` (plus `holdmeupTests/`, `holdmeupUITests/`) lives at
   the root of this repo. It uses Xcode 16's file-system-synchronized groups,
   so the project's main source group just points at `HoldMeUp/` on disk —
@@ -170,3 +172,21 @@ reliable real-time sync). Free tier: 3. Party Pack: 8.
   target vs. an iOS 18 Simulator runtime is *not* the cause (that's the
   normal, fully-supported case). Fix: quit Simulator.app completely (⌘Q, not
   just closing the window) and re-run from Xcode.
+- **Known quirk: local builds reproducibly rewrite `project.pbxproj`** on
+  this Mac. Any local `xcodebuild`/Xcode build of the `holdmeup` target
+  (Debug and Release configs both) reliably re-adds three lines that are
+  *not* in the committed baseline: `IPHONEOS_DEPLOYMENT_TARGET = 15.6;`,
+  `INFOPLIST_KEY_CFBundleDisplayName = "Hold Me Up";`, and
+  `INFOPLIST_KEY_LSApplicationCategoryType =
+  "public.app-category.kids-games";`. Confirmed reproducible twice in the
+  same session — reverting via `git checkout` or manual edit, then simply
+  rebuilding again, brought all three right back. Root cause not fully
+  pinned down (looks like Xcode's own project-settings inference writing
+  its guesses back to disk on build), but the fix is mechanical: **always
+  check `git diff holdmeup.xcodeproj/project.pbxproj` before committing**,
+  and revert these three lines (or `git checkout --
+  holdmeup.xcodeproj/project.pbxproj` if no other intentional pbxproj
+  changes are pending) if they reappear. The deployment target must stay
+  `17.0` (see above); the two `INFOPLIST_KEY_*` lines are undesired because
+  app branding/category are still open TODOs, not because they're wrong
+  per se — revisit if branding gets finalized.

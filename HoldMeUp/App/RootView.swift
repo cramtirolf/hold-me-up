@@ -6,6 +6,8 @@ struct RootView: View {
     var body: some View {
         Group {
             switch appState.route {
+            case .splash:
+                SplashView()
             case .onboarding:
                 OnboardingView()
             case .home:
