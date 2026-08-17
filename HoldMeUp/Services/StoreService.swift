@@ -5,10 +5,10 @@ import StoreKit
 /// "Deferred / TODO". These are placeholders and will not resolve to real
 /// products yet.
 enum StoreProduct: String, CaseIterable {
-    case tipSmall = "com.holdmeup.tip.small"
-    case tipMedium = "com.holdmeup.tip.medium"
-    case tipLarge = "com.holdmeup.tip.large"
-    case partyPack = "com.holdmeup.unlock.partypack"
+    case tipSmall = "com.wynwin.holdmeup.tip.small"
+    case tipMedium = "com.wynwin.holdmeup.tip.medium"
+    case tipLarge = "com.wynwin.holdmeup.tip.large"
+    case partyPack = "com.wynwin.holdmeup.unlock.partypack"
 }
 
 @MainActor
