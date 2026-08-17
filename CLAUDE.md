@@ -73,6 +73,12 @@ etc.) get added the same way if/when a project actually needs the split;
 this one doesn't need more yet since it's a single Swift codebase with no
 backend.
 
+Give the `tester` agent latitude on scope — it decides what "comprehensive"
+means within its documented boundaries (pure logic + `GameSessionController`
+decision logic; not motion/networking/UI, which need a real device) rather
+than following a fixed checklist. Ask it to state what it covered and what
+it deliberately skipped, each time.
+
 ## Monetization
 - **Party Pack** — non-consumable IAP, host-only, raises the room cap from
   3 → 8 players. Enforcement is client-side (no server to check against) —
@@ -103,3 +109,15 @@ reliable real-time sync). Free tier: 3. Party Pack: 8.
   build; was stuck on macOS Sequoia (15.x) which the current Xcode doesn't
   support (needs macOS 26+). Fix was downloading an older Xcode (16.x) from
   developer.apple.com/download/all/ instead of the App Store.
+- **Testing approach right now: direct USB install via Xcode's free
+  "Personal Team," not TestFlight.** Deliberately deferring Apple Developer
+  Program enrollment until closer to real playtesting. Known limits of this
+  path: builds expire after 7 days and need reinstalling, free-team device
+  registration is capped well below the paid program's 100/year (historically
+  ~3), each device needs a one-time "trust this developer" step in Settings,
+  and there's no way to distribute to anyone not physically cabled to this
+  Mac. StoreKit purchases (tip jar / Party Pack) can still be tested locally
+  via an Xcode StoreKit Configuration file without needing enrollment.
+- Project created in Xcode with Organization Identifier `com.holdmeup`
+  (→ Bundle ID `com.holdmeup.HoldMeUp`) and Testing System set to none/
+  Swift Testing, matching `StoreService.swift`'s placeholder product IDs.

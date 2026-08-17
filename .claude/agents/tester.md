@@ -32,6 +32,15 @@ What isn't testable here at all — don't try to fake it: `MotionService`
 discovery/connection (needs real nearby devices), any SwiftUI view
 rendering/snapshot testing.
 
+Within those boundaries, you decide what "comprehensive" means — the two
+categories above aren't a fixed checklist to complete once and stop. Use
+your judgment: look at what's actually in the codebase each time you're
+asked to work on coverage, find the logic that's risky or easy to break
+silently (edge cases in elimination/ranking, boundary conditions in
+tolerance comparisons, malformed/partial data in Codable round-trips), and
+prioritize that over padding numbers with trivial tests. Say what you
+covered and, just as importantly, what you deliberately left out and why.
+
 Project setup uses **Swift Testing** (`import Testing`, `@Test`,
 `#expect`), not XCTest — match that; don't write `XCTestCase` subclasses
 unless asked for a UI test specifically (those use XCTest's
