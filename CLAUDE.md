@@ -52,17 +52,14 @@ mockup is the source of truth until explicitly updated.
   placeholders from early planning (Easy: 3min/50°, Medium: 5min/30°,
   Hard/Savage extrapolated). Real values need playtesting on a physical
   device — not final.
-- **StoreKit product IDs** (`StoreService.swift`) are placeholders
-  (`com.holdmeup.*`). They won't resolve to real products until Apple
-  Developer Program enrollment is done and products exist in App Store
+- **StoreKit product IDs** (`StoreService.swift`) use the real bundle ID
+  prefix (`com.wynwin.holdmeup.*`) but won't resolve to real products until
+  Apple Developer Program enrollment is done and products exist in App Store
   Connect.
 - **Fail-sound** in the tutorial (`HowToPlayEliminationView`) uses a built-in
   iOS system sound as a stand-in — swap for a real custom sound asset later.
 - **App name** "Hold Me Up" is not finalized branding, just what the repo is
   called today.
-- **Bundle identifier** used in `SETUP.md` / `StoreService.swift` is a
-  placeholder (`com.holdmeup.*`) — replace with whatever's registered once
-  Developer Program enrollment happens.
 
 ## Specialized agents
 `.claude/agents/frontend-developer.md` and `.claude/agents/tester.md` define
@@ -78,6 +75,30 @@ means within its documented boundaries (pure logic + `GameSessionController`
 decision logic; not motion/networking/UI, which need a real device) rather
 than following a fixed checklist. Ask it to state what it covered and what
 it deliberately skipped, each time.
+
+## Workflow
+From here on, any development/implementation request goes through the
+`frontend-developer` and `tester` agents in this fixed sequence, not ad hoc:
+
+1. **Clarify** — confirm the requirement and priority of the next feature or
+   change before any code or tests get written. Ask if it's ambiguous.
+2. **Tester writes tests first** — `tester` creates/updates the test(s) for
+   the agreed behavior before any implementation exists.
+3. **Developer implements** — `frontend-developer` writes or updates the
+   code needed to satisfy those tests.
+4. **Tester runs the tests** — `tester` executes them (locally, via
+   `xcodebuild`/`swift test` against `holdmeup.xcodeproj` — see "Dev
+   environment" below for how test execution works in local vs. cloud
+   sessions) and reports pass/fail plainly, never guessing.
+5. **Outcome**:
+   - All green → the feature/change is **COMPLETED OK**.
+   - Any failure → go back to step 3 (developer fixes, tester re-runs).
+
+**Guardrail: max 3 iterations of steps 3–4.** If the 3rd re-run still has
+failures, stop — don't keep looping. Explain the situation in chat (what's
+failing, what's been tried) and offer concrete next-action options (e.g.
+narrow the requirement, pair on the failing case directly, accept a partial
+fix, or escalate a blocker like a missing device/API).
 
 ## Monetization
 - **Party Pack** — non-consumable IAP, host-only, raises the room cap from
@@ -118,6 +139,34 @@ reliable real-time sync). Free tier: 3. Party Pack: 8.
   and there's no way to distribute to anyone not physically cabled to this
   Mac. StoreKit purchases (tip jar / Party Pack) can still be tested locally
   via an Xcode StoreKit Configuration file without needing enrollment.
-- Project created in Xcode with Organization Identifier `com.holdmeup`
-  (→ Bundle ID `com.holdmeup.HoldMeUp`) and Testing System set to none/
-  Swift Testing, matching `StoreService.swift`'s placeholder product IDs.
+- **Bundle ID: `com.wynwin.holdmeup`** (targets are named `holdmeup` /
+  `holdmeupTests` / `holdmeupUITests`, lowercase — matches the real Xcode
+  project, not the `HoldMeUp`/`com.holdmeup.*` naming used earlier in
+  planning). Testing System is Swift Testing, matching `StoreService.swift`'s
+  product ID prefixes.
+- Deployment target is **iOS 17.0** — confirmed as the real minimum; a local
+  drift to 18.5 was found and corrected back.
+- `holdmeup.xcodeproj` (plus `holdmeupTests/`, `holdmeupUITests/`) lives at
+  the root of this repo. It uses Xcode 16's file-system-synchronized groups,
+  so the project's main source group just points at `HoldMeUp/` on disk —
+  new files added under `HoldMeUp/` are picked up automatically, no manual
+  target-membership step needed for files inside that tree. `Assets.xcassets`
+  and `Info.plist` live under `HoldMeUp/` alongside the hand-written source.
+  (The old separate local-only copy at `~/Documents/XCode/Developer/holdmeup`
+  has been deleted now that this repo is the single source.)
+- **Git push/pull from Terminal is authenticated via `gh auth login`** (set
+  up 2026-08-17, logged in as `cramtirolf`) — works directly now. If a local
+  `git push` ever fails again with `could not read Username for
+  'https://github.com'`, it means this Mac's `gh` auth or git credential
+  helper (`osxkeychain`) needs re-running, not that push is fundamentally
+  broken — a cloud session has no access to this and should fall back to the
+  GitHub MCP tools (`push_files`, `create_pull_request`, etc.) instead.
+- **Known quirk: Simulator window can render solid black on first launch of
+  a session** on this Mac, even though the app is actually running fine
+  underneath (confirmed via `simctl` screenshot showing real content, and no
+  crash in `simctl spawn booted log show` or `~/Library/Logs/
+  DiagnosticReports`). Looks like a Metal/GPU rendering glitch tied to this
+  Intel Mac's hardware, not an app or project-config bug — iOS 17 deployment
+  target vs. an iOS 18 Simulator runtime is *not* the cause (that's the
+  normal, fully-supported case). Fix: quit Simulator.app completely (⌘Q, not
+  just closing the window) and re-run from Xcode.
