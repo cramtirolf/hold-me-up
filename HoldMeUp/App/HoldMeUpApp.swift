@@ -8,7 +8,6 @@ struct HoldMeUpApp: App {
         WindowGroup {
             RootView()
                 .environmentObject(appState)
-                .onAppear { appState.goHomeIfProfileExists() }
         }
     }
 }
